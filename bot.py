@@ -25,6 +25,18 @@ def callback_query(call):
         bot.send_photo(user_id, photo)
 
 
+def get_my_score():
+    info = manager.get_winners_img("user_id")
+    prizes = [x[0] for x in info]
+    image_paths = os.listdir('img')
+    image_paths = [f'img/{x}' if x in prizes else f'hidden_img/{x}' for x in image_paths]
+    collage = manager.create_collage(image_paths)
+
+    cv2.imshow('Collage', collage)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
 def send_message():
     prize_id, img = manager.get_random_prize()[:2]
     manager.mark_prize_used(prize_id)
